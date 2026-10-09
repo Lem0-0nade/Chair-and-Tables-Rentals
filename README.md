@@ -1,38 +1,49 @@
-# Chair We GO! - Premium Event Rentals Web Application
-Business Overview
-* **Business Name:** Chair We GO!
-* **Business Description:** Chair We GO! is a premier event rental service provider specializing in high-quality seating (monoblock chairs with optional fitted covers) and banquet/buffet tables. 
-* **Target Users:** 
-  * **Clients / Event Organizers:** Individuals or planners looking to reserve seating and tables for weddings, parties, corporate events, or private gatherings.
-  * **Administrators:** Business owners/managers who oversee inventory capacities, track bookings on a live calendar, review client records, update payment statuses, and provide customer support.
+# Chair We GO! - Event Rentals Management System
 
-Problem Being Solved
-Traditional event equipment rentals often rely on manual spreadsheets, phone calls, or disjointed messaging apps to handle reservations, leading to double-booking errors, stock discrepancies, and delayed payment verifications. **Chair We GO!** solves this by providing an automated, real-time cloud concierge portal that locks inventory capacities instantly, prevents scheduling conflicts, calculates logistics (pick-up vs. delivery) dynamically, and unifies client-admin communication with image attachment support for proof-of-payment verification.
+## Business Name and Description
 
-Feature List
-* **Landing Page & Navigation**: Professional, artistic hero landing section with clear calls to action ("Reserve Now" and "Client Log In").
-* **Authentication System**: 
-  * User registration capturing Full Name, Email Address, and securely hashed passwords.
-  * Flexible login using either **Email Address** or **Full Name**.
-  * Secure session management and logout.
-* **Role-Based Access Control**: Strict separation between Admin and regular User roles.
-* **Complete CRUD Operations**:
-  * **Create**: Register accounts, add new inventory stock capacities, and submit event reservations.
-  * **Read**: Browse rental product catalogs, view client event histories, check event calendar schedules, and access chat support histories.
-  * **Update**: Adjust cart item quantities, update stock inventory levels, and modify reservation payment statuses (e.g., marking payments as "Paid").
-  * **Delete**: Remove items from cart or terminate/cancel event bookings (which automatically restores and frees up global inventory capacities).
-* **Validations & Confirmations**: 
-  * 4-day lead-time enforcement on reservation dates.
-  * Real-time stock availability validation against global database records.
-  * Confirmation dialogs before terminating reservations.
-* **Flexible Logistics & Payments**: 
-  * Selection between Store Pick-up (₱0) and Direct Delivery (₱300 with required address validation).
-  * Choice of Cash payment or Online Payment via an integrated InstaPay QR code (revealed securely upon order confirmation).
-* **Real-Time Client-Admin Support Chat & Attachments**: 
-  * Live messaging widget with unread notifications.
-  * Camera/file upload integration allowing clients to upload and transmit proof-of-payment screenshots directly to the admin.
+Chair We GO! is a premier event rentals business specializing in high-quality seating and dining tables for discerning events ranging from intimate gatherings to grand formal banquets. The system serves two primary types of users:
 
-Tech Stack Used
-* **Frontend**: HTML5, CSS3 (Flexbox, CSS Grid, Custom Variables, Responsive Media Queries), Vanilla JavaScript (ES6+ Modules).
-* **Database & Cloud Sync**: Firebase Realtime Database (Google Cloud).
-* **Security**: Web Crypto API (SHA-256 Client-Side Password Hashing).
+* **Clients/Users:** Individuals who browse inventory, curate event selections, book reservations with flexible delivery or pickup options, track reservation statuses, and communicate with support.
+* **Administrators:** Business managers who oversee product inventory, monitor event schedules via an interactive calendar, manage client records, update payment statuses (Pending to Paid), and handle customer support chats.
+
+## Problem Being Solved
+
+Manual event rental reservations are often disorganized, prone to double-booking inventory, and lack real-time visibility over payment collections and delivery logistics. Chair We GO! solves these challenges by providing a centralized cloud-synced web application that automates inventory stock tracking per date, provides secure user authentication, handles 50% downpayment workflows, maintains an interactive calendar, and offers real-time notifications and support chat.
+
+## Feature List
+
+* **Landing Page:** Professional hero section, business value propositions, and quick authentication triggers.
+* **User Authentication:** Secure registration and login supporting password hashing for clients and administrators.
+* **Inventory & Stock CRUD:** Admins can view and update stock capacities for items such as monoblock chairs, round banquet tables, and rectangular buffet tables.
+* **Reservation & Cart Management:** Users can curate items, add optional fitted covers, select event dates with lead time validations, choose pickup or delivery logistics, and view calculated totals and receipts.
+* **Interactive Event Calendar:** Admins can visualize daily bookings, inspect event details, mark payments as paid, or terminate reservations to automatically free up inventory.
+* **Real-time Notifications:** Bell icon dropdown displaying interactive notification items with Philippine Standard Time (PST, UTC+8) timestamps. Clicking a notification opens reservation details for immediate review and status updates.
+* **Support Chat System:** Real-time messaging widget allowing clients and admins to chat and exchange proof of payment attachments.
+
+## Tech Stack Used
+
+* **Frontend:** HTML5, CSS3, JavaScript (Vanilla ES6 modules).
+* **Backend & Database:** Firebase Realtime Database.
+* **Security:** Web Crypto API (SHA-256 password hashing).
+
+## Setup and Run Instructions
+
+1. Clone or download the project files to your local machine.
+2. Ensure you have the `index.html` file and any corresponding image assets in your local directory structure.
+3. Open `index.html` using a modern web browser (Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari). Because the application utilizes Firebase JavaScript modules, running it through a local development server (such as Live Server in VS Code) or directly via a modern browser supporting ES modules is recommended.
+4. Log in using the test credentials provided below.
+
+## AI Tools Used
+
+* **Gemini (Personal AI Collaborator):** Used to design, write, and iteratively refactor the front-end interface, implement Firebase cloud database integration, establish Philippine Standard Time formatting, build the real-time chat widget with image attachment support, and construct the interactive notification dropdown list.
+
+## Test Accounts
+
+* **Admin Account:**
+* Identifier: `admin@chairwego.com` (or `admin`)
+* Password: `admin`
+
+
+* **Regular User Account:**
+* You can register a new account directly through the registration portal on the landing page, or log in with any newly created client credentials.
