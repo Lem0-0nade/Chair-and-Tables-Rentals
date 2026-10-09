@@ -1,32 +1,38 @@
-# Chair We GO! 🪑
+# Chair We GO! - Premium Event Rentals Web Application
+Business Overview
+* **Business Name:** Chair We GO!
+* **Business Description:** Chair We GO! is a premier event rental service provider specializing in high-quality seating (monoblock chairs with optional fitted covers) and banquet/buffet tables. 
+* **Target Users:** 
+  * **Clients / Event Organizers:** Individuals or planners looking to reserve seating and tables for weddings, parties, corporate events, or private gatherings.
+  * **Administrators:** Business owners/managers who oversee inventory capacities, track bookings on a live calendar, review client records, update payment statuses, and provide customer support.
 
-Chair We GO! is a web-based ordering, rental, and inventory management system built specifically for event chair and table rentals.
+Problem Being Solved
+Traditional event equipment rentals often rely on manual spreadsheets, phone calls, or disjointed messaging apps to handle reservations, leading to double-booking errors, stock discrepancies, and delayed payment verifications. **Chair We GO!** solves this by providing an automated, real-time cloud concierge portal that locks inventory capacities instantly, prevents scheduling conflicts, calculates logistics (pick-up vs. delivery) dynamically, and unifies client-admin communication with image attachment support for proof-of-payment verification.
 
-## Features
-- **Role-Based Access:** Separate Admin dashboard and User storefront.
-- **Security:** 3-try login lockout (suspends login for 1 minute after 3 failed attempts).
-- **Interactive Catalog:** Hover-zoom effects and clear visual cards for Monoblock Chairs, Round Folding Tables, and Folding Rectangular Tables.
-- **Custom Add-ons:** Tailored cover fees (₱5 for chairs, ₱25 for round tables, ₱40 for rectangular tables).
-- **Date Availability Checker:** Calendar integration that checks date-specific stock availability to prevent double booking.
-- **Admin Management:** Inventory tracker, Renter history logs, and an interactive monthly scheduling calendar.
-- **Receipts:** Fully printable and downloadable text receipts.
+Feature List
+* **Landing Page & Navigation**: Professional, artistic hero landing section with clear calls to action ("Reserve Now" and "Client Log In").
+* **Authentication System**: 
+  * User registration capturing Full Name, Email Address, and securely hashed passwords.
+  * Flexible login using either **Email Address** or **Full Name**.
+  * Secure session management and logout.
+* **Role-Based Access Control**: Strict separation between Admin and regular User roles.
+* **Complete CRUD Operations**:
+  * **Create**: Register accounts, add new inventory stock capacities, and submit event reservations.
+  * **Read**: Browse rental product catalogs, view client event histories, check event calendar schedules, and access chat support histories.
+  * **Update**: Adjust cart item quantities, update stock inventory levels, and modify reservation payment statuses (e.g., marking payments as "Paid").
+  * **Delete**: Remove items from cart or terminate/cancel event bookings (which automatically restores and frees up global inventory capacities).
+* **Validations & Confirmations**: 
+  * 4-day lead-time enforcement on reservation dates.
+  * Real-time stock availability validation against global database records.
+  * Confirmation dialogs before terminating reservations.
+* **Flexible Logistics & Payments**: 
+  * Selection between Store Pick-up (₱0) and Direct Delivery (₱300 with required address validation).
+  * Choice of Cash payment or Online Payment via an integrated InstaPay QR code (revealed securely upon order confirmation).
+* **Real-Time Client-Admin Support Chat & Attachments**: 
+  * Live messaging widget with unread notifications.
+  * Camera/file upload integration allowing clients to upload and transmit proof-of-payment screenshots directly to the admin.
 
----
-
-## 🚀 How to Deploy on the Live Internet for FREE
-
-You can host this application completely for free in less than 2 minutes using **Netlify Drop** or **Vercel**:
-
-### Option A: Using Netlify Drop (Fastest & Easiest)
-1. Make sure your file is strictly named `index.html`.
-2. Go to [Netlify Drop](https://drop.netlify.com/).
-3. Drag and drop your project folder (or just the `index.html` file) directly into the browser drop zone.
-4. Netlify will instantly host your app and give you a live URL (e.g., `https://random-name-123456.netlify.app`).
-5. *(Optional)* Click "Site settings" inside Netlify to change your site name to something custom like `chairwego`.
-
-### Option B: Using GitHub Pages
-1. Create a free repository on [GitHub](https://github.com/).
-2. Upload your `index.html` file into the repository.
-3. Go to your repository **Settings** -> **Pages**.
-4. Under **Branch**, select `main` (or `master`) and click **Save**.
-5. Your live URL will be generated automatically within 30 seconds!
+Tech Stack Used
+* **Frontend**: HTML5, CSS3 (Flexbox, CSS Grid, Custom Variables, Responsive Media Queries), Vanilla JavaScript (ES6+ Modules).
+* **Database & Cloud Sync**: Firebase Realtime Database (Google Cloud).
+* **Security**: Web Crypto API (SHA-256 Client-Side Password Hashing).
