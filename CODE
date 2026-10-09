@@ -150,9 +150,22 @@
         .status-pending { background-color: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
         .status-paid { background-color: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
 
-        /* Notification Toast */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--secondary); color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideIn 0.3s forwards; font-size: 0.9em; display: flex; align-items: center; justify-content: space-between; gap: 15px;}
+        /* Notification Icon & Dropdown / Toast */
+        .notif-btn-wrapper { position: relative; display: inline-block; }
+        .notif-bell { background: transparent; border: 2px solid var(--border); color: var(--secondary); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2em; cursor: pointer; transition: all 0.2s; padding: 0; }
+        .notif-bell:hover { border-color: var(--primary); color: var(--primary); background: #f8fafc; transform: none; box-shadow: none; }
+        .notif-badge { position: absolute; top: -4px; right: -4px; background: var(--danger); color: white; font-size: 0.7em; padding: 2px 6px; border-radius: 10px; font-weight: 700; display: none; }
+
+        /* Notification List Dropdown Modal */
+        #notif-dropdown, #notif-dropdown-user { position: absolute; right: 0; top: 55px; width: 340px; background: white; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); border: 1px solid var(--border); z-index: 1800; display: none; flex-direction: column; overflow: hidden; }
+        .notif-dropdown-header { background: var(--secondary); color: white; padding: 12px 18px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; font-size: 0.95em; font-family: 'Playfair Display', serif; }
+        .notif-dropdown-body { max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; }
+        .notif-item { padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 0.85em; text-align: left; background: #fff; transition: background 0.2s; cursor: pointer; }
+        .notif-item:hover { background: #f8fafc; }
+        .notif-item-time { font-size: 0.75em; color: var(--text-light); margin-top: 4px; display: block; font-weight: 500; }
+
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; max-width: 380px;}
+        .toast { background: var(--secondary); color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); animation: slideIn 0.3s forwards; font-size: 0.9em; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; border-left: 4px solid var(--primary);}
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
         /* Chat Widget Styles */
@@ -181,7 +194,7 @@
             .landing-hero { padding: 40px 20px; }
             .landing-hero h2 { font-size: 2em; }
             .landing-buttons { flex-direction: column; width: 100%; }
-            .landing-buttons button { width: 100%; }
+            .landing-buttons button { width: 100% !important; }
             
             .section { padding: 25px 15px; }
             .nav-bar { flex-direction: column; gap: 15px; text-align: center; }
@@ -201,6 +214,7 @@
             
             #chat-widget { width: 92%; right: 4%; bottom: 90px; height: 60vh; }
             #chat-body { height: calc(100% - 120px); }
+            #notif-dropdown, #notif-dropdown-user { width: 280px; right: -20px; }
         }
 
         @media print {
@@ -254,31 +268,45 @@
 
     <!-- AUTHENTICATION SECTION -->
     <div id="auth-section" class="section">
-        <div class="auth-card" id="signup-view">
+        <form class="auth-card" id="signup-view" onsubmit="event.preventDefault(); signup();">
             <h2>Create an Account</h2>
             <input type="text" id="signup-name" placeholder="Full Name">
             <input type="email" id="signup-email" placeholder="Email Address">
             <input type="password" id="signup-pass" placeholder="Password">
-            <button class="btn-success" onclick="signup()">Register to Rent</button>
+            <button type="submit" class="btn-success">Register to Rent</button>
             <a class="toggle-link" onclick="switchAuth('login')">Already a client? Log in</a>
             <p id="signup-msg" class="auth-msg"></p>
-        </div>
+        </form>
 
-        <div class="auth-card" id="login-view" style="display: none;">
+        <form class="auth-card" id="login-view" style="display: none;" onsubmit="event.preventDefault(); login();">
             <h2>Welcome Back</h2>
             <input type="text" id="login-identifier" placeholder="Email Address or Full Name">
             <input type="password" id="login-pass" placeholder="Password">
-            <button onclick="login()">Access Portal</button>
+            <button type="submit">Access Portal</button>
             <a class="toggle-link" onclick="switchAuth('signup')">New client? Register here</a>
             <p id="login-msg" class="auth-msg"></p>
-        </div>
+        </form>
     </div>
 
     <!-- ADMIN SECTION -->
     <div id="admin-section" class="section">
         <div class="nav-bar">
             <h2>Admin Dashboard</h2>
-            <button class="btn-danger btn-small" onclick="logout()">Secure Logout</button>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="notif-btn-wrapper">
+                    <button class="notif-bell" onclick="toggleNotifDropdown()" title="Notifications">🔔<span id="admin-notif-badge" class="notif-badge">0</span></button>
+                    <div id="notif-dropdown">
+                        <div class="notif-dropdown-header">
+                            <span>Notifications</span>
+                            <button onclick="clearNotifications()" style="background:transparent; border:none; color:#cbd5e1; font-size:0.8em; cursor:pointer; width:auto; padding:0;">Clear All</button>
+                        </div>
+                        <div class="notif-dropdown-body" id="admin-notif-list">
+                            <div style="padding: 15px; text-align: center; color: var(--text-light); font-size: 0.85em;">No notifications yet.</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-danger btn-small" onclick="logout()">Secure Logout</button>
+            </div>
         </div>
 
         <div class="admin-tabs">
@@ -335,7 +363,19 @@
     <div id="user-section" class="section">
         <div class="nav-bar">
             <h2>Welcome, <span id="display-renter-name" style="color:var(--primary); font-family: 'Playfair Display', serif; font-style: italic;"></span></h2>
-            <div style="display: flex; gap: 15px;">
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="notif-btn-wrapper">
+                    <button class="notif-bell" onclick="toggleNotifDropdown()" title="Notifications">🔔<span id="user-notif-badge" class="notif-badge">0</span></button>
+                    <div id="notif-dropdown-user">
+                        <div class="notif-dropdown-header">
+                            <span>Notifications</span>
+                            <button onclick="clearNotifications()" style="background:transparent; border:none; color:#cbd5e1; font-size:0.8em; cursor:pointer; width:auto; padding:0;">Clear All</button>
+                        </div>
+                        <div class="notif-dropdown-body" id="user-notif-list">
+                            <div style="padding: 15px; text-align: center; color: var(--text-light); font-size: 0.85em;">No notifications yet.</div>
+                        </div>
+                    </div>
+                </div>
                 <button class="btn-success btn-small" onclick="viewCart()">Cart (<span id="cart-count">0</span>)</button>
                 <button class="btn-outline btn-small" onclick="logout()">Logout</button>
             </div>
@@ -480,7 +520,7 @@
 </div>
 
 <!-- CHAT WIDGET -->
-<button id="chat-toggle-btn" onclick="toggleChatWidget()">💬</button>
+<button id="chat-toggle-btn" onclick="toggleChatWidget()">💬 <span id="chat-badge" class="notif-badge" style="display:none; top:-8px; right:-8px;">!</span></button>
 <div id="chat-widget">
     <div id="chat-header" onclick="toggleChatWidget()">
         <span id="chat-title">Chat Support</span>
@@ -491,7 +531,6 @@
         <div id="chat-messages"></div>
     </div>
     <div id="chat-input-area">
-        <!-- Image Upload Button -->
         <input type="file" id="chat-file-input" accept="image/*" style="display:none;" onchange="sendChatImage(event)">
         <button type="button" onclick="document.getElementById('chat-file-input').click()" style="background:transparent; color:var(--secondary); border:1px solid var(--border); border-radius:50%; width:38px; height:38px; padding:0; display:flex; align-items:center; justify-content:center; font-size:1.1em; cursor:pointer; flex-shrink:0;" title="Attach Image or Proof of Payment">📷</button>
         
@@ -553,6 +592,25 @@
     let activeChatUser = null;
     let previousChatCount = 0;
     let isChatOpen = false;
+    let previousReservationCount = 0;
+    let userPreviousStatuses = {};
+    
+    let notificationsList = [];
+    let unreadNotifCount = 0;
+    let unreadChatCount = 0;
+
+    function getPSTTimeString(timestamp = Date.now()) {
+        return new Date(timestamp).toLocaleString("en-PH", {
+            timeZone: "Asia/Manila",
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+    }
 
     function showToast(message) {
         const container = document.getElementById("toast-container");
@@ -560,7 +618,92 @@
         toast.className = "toast";
         toast.innerHTML = `<span>${message}</span> <button style="background:transparent; border:none; color:white; width:auto; padding:0; font-size:1.2em; cursor:pointer;" onclick="this.parentElement.remove()">×</button>`;
         container.appendChild(toast);
-        setTimeout(() => { if(toast.parentElement) toast.remove(); }, 5000);
+        setTimeout(() => { if(toast.parentElement) toast.remove(); }, 6000);
+    }
+
+    function addNotificationToList(text, timestamp, reservationId) {
+        const timeStr = getPSTTimeString(timestamp);
+        notificationsList.unshift({ text: text, time: timeStr, reservationId: reservationId });
+        unreadNotifCount++;
+        updateNotificationUI();
+    }
+
+    function updateNotificationUI() {
+        const adminBadge = document.getElementById("admin-notif-badge");
+        const userBadge = document.getElementById("user-notif-badge");
+        const adminList = document.getElementById("admin-notif-list");
+        const userList = document.getElementById("user-notif-list");
+
+        if (unreadNotifCount > 0) {
+            if(adminBadge) { adminBadge.innerText = unreadNotifCount; adminBadge.style.display = "inline-block"; }
+            if(userBadge) { userBadge.innerText = unreadNotifCount; userBadge.style.display = "inline-block"; }
+        } else {
+            if(adminBadge) adminBadge.style.display = "none";
+            if(userBadge) userBadge.style.display = "none";
+        }
+
+        let html = "";
+        if (notificationsList.length === 0) {
+            html = `<div style="padding: 15px; text-align: center; color: var(--text-light); font-size: 0.85em;">No notifications yet.</div>`;
+        } else {
+            notificationsList.forEach(n => {
+                html += `<div class="notif-item" onclick="handleNotificationClick(${n.reservationId})">
+                    <div>${n.text}</div>
+                    <span class="notif-item-time">🕒 ${n.time} PST</span>
+                </div>`;
+            });
+        }
+
+        if(adminList) adminList.innerHTML = html;
+        if(userList) userList.innerHTML = html;
+    }
+
+    function handleNotificationClick(reservationId) {
+        if (!reservationId) return;
+        toggleNotifDropdown();
+        
+        if (currentUser === "admin") {
+            const res = allReservations.find(r => r.id === reservationId);
+            if (res) showDateDetails(res.date);
+        } else {
+            const res = allReservations.find(r => r.id === reservationId);
+            if (res) {
+                let statusClass = res.status === "Paid" ? "status-paid" : "status-pending";
+                let html = `<div class="detail-box" style="position:relative; padding-top: 45px;">
+                    <span class="status-badge ${statusClass}" style="position:absolute; left:15px; top:15px; margin:0;">${res.status}</span>
+                    <p style="margin:10px 0 5px 0; color:var(--primary); font-size: 1.1em; font-weight: 500;"><strong>Event Date:</strong> ${res.date}</p>
+                    <p style="margin:0 0 5px 0; font-size:0.95em;"><strong>Logistics:</strong> ${res.logistics} | <strong>Payment Mode:</strong> ${res.paymentMode}</p>
+                    <p style="margin:0 0 5px 0; font-size:0.95em;"><strong>Venue:</strong> ${res.address || "N/A (Pick-up)"}</p>
+                    <p style="margin:0 0 10px 0; font-size:0.95em;"><strong>Bill Total:</strong> ₱${res.total.toFixed(2)}</p>
+                    <ul style="margin:0; padding-left:20px; font-size:0.95em; color:var(--text-light);">`;
+                res.items.forEach(i => html += `<li>${i.qty}x ${i.name}</li>`);
+                html += `</ul></div>`;
+                document.getElementById("modal-title").innerText = `Reservation Details (${res.date})`;
+                document.getElementById("modal-body").innerHTML = html;
+                document.getElementById("admin-detail-modal").style.display = "flex";
+            }
+        }
+    }
+
+    function toggleNotifDropdown() {
+        const adminDD = document.getElementById("notif-dropdown");
+        const userDD = document.getElementById("notif-dropdown-user");
+        const targetDD = currentUser === "admin" ? adminDD : userDD;
+        if (!targetDD) return;
+
+        const isVisible = targetDD.style.display === "flex";
+        targetDD.style.display = isVisible ? "none" : "flex";
+
+        if (!isVisible) {
+            unreadNotifCount = 0;
+            updateNotificationUI();
+        }
+    }
+
+    function clearNotifications() {
+        notificationsList = [];
+        unreadNotifCount = 0;
+        updateNotificationUI();
     }
 
     onValue(ref(db, '/'), (snapshot) => {
@@ -570,9 +713,35 @@
             inventory = data.inventory ? (Array.isArray(data.inventory) ? data.inventory : Object.values(data.inventory)) : defaultInventory;
             
             const newRes = data.reservations ? (Array.isArray(data.reservations) ? data.reservations : Object.values(data.reservations)) : [];
-            if (currentUser === "admin" && newRes.length > allReservations.length && allReservations.length > 0) {
-                showToast("🛎️ New reservation received!");
+            
+            if (previousReservationCount > 0) {
+                if (currentUser === "admin" && newRes.length > allReservations.length) {
+                    const latestRes = newRes[newRes.length - 1];
+                    const pstTime = getPSTTimeString(latestRes.id);
+                    showToast(`🛎️ New booking from <b>${latestRes.renter}</b><br>Time: ${pstTime} PST`);
+                    addNotificationToList(`🛎️ New booking from <b>${latestRes.renter}</b> for ${latestRes.date}`, latestRes.id, latestRes.id);
+                }
+
+                if (currentUser && currentUser !== "admin") {
+                    newRes.forEach(res => {
+                        if (res.renter === currentUser) {
+                            if (userPreviousStatuses[res.id] && userPreviousStatuses[res.id] !== res.status) {
+                                showToast(`🔔 Reservation update for ${res.date}: <b>${res.status}</b>`);
+                                addNotificationToList(`🔔 Status for ${res.date} updated to <b>${res.status}</b>`, Date.now(), res.id);
+                            }
+                            userPreviousStatuses[res.id] = res.status;
+                        }
+                    });
+                }
+            } else {
+                newRes.forEach(res => {
+                    if (res.renter === currentUser) {
+                        userPreviousStatuses[res.id] = res.status;
+                    }
+                });
             }
+
+            previousReservationCount = newRes.length;
             allReservations = newRes;
             bookingsDb = data.bookings || {};
             
@@ -605,7 +774,11 @@
         const widget = document.getElementById("chat-widget");
         isChatOpen = !isChatOpen;
         widget.style.display = isChatOpen ? "flex" : "none";
-        if(isChatOpen) renderChatUI();
+        if(isChatOpen) {
+            unreadChatCount = 0;
+            document.getElementById("chat-badge").style.display = "none";
+            renderChatUI();
+        }
     }
 
     function processChatUpdates() {
@@ -635,6 +808,8 @@
         if (currentTotalMessages > previousChatCount) {
             if (!isChatOpen && incomingUnread) {
                 showToast("💬 New chat message received!");
+                unreadChatCount++;
+                document.getElementById("chat-badge").style.display = "flex";
             }
             previousChatCount = currentTotalMessages;
             if(isChatOpen) renderChatUI();
@@ -801,7 +976,6 @@
         const passInput = document.getElementById("login-pass").value;
         const hashedInput = await hashPassword(passInput);
         
-        // Allows login using either Name OR Email
         const userFound = usersDb.find(u => 
             (u.name.toLowerCase() === identifier.toLowerCase() || 
             (u.email && u.email.toLowerCase() === identifier.toLowerCase())) 
@@ -814,6 +988,14 @@
             currentUserEmail = userFound.email || "N/A";
             document.getElementById("chat-toggle-btn").style.display = "flex";
             
+            unreadNotifCount = 0;
+            updateNotificationUI();
+
+            userPreviousStatuses = {};
+            allReservations.forEach(res => {
+                if(res.renter === currentUser) userPreviousStatuses[res.id] = res.status;
+            });
+
             if (userFound.role === "admin") {
                 switchAdminTab('inventory');
                 showSection("admin-section");
@@ -1175,7 +1357,7 @@
         document.getElementById("receipt-logistics").innerText = selectedLogistics;
         document.getElementById("receipt-address").innerText = selectedAddress || "N/A (Client will Pick-up)";
         document.getElementById("receipt-downpayment").innerText = downpayment.toFixed(2);
-        document.getElementById("receipt-date").innerText = new Date().toLocaleString();
+        document.getElementById("receipt-date").innerText = getPSTTimeString(Date.now());
         
         if (selectedPaymentMode === "Online Payment (InstaPay)") {
             document.getElementById("receipt-qr-area").style.display = "block";
@@ -1199,7 +1381,7 @@
 
     function downloadReceipt() {
         let text = "========================================\n        CHAIR WE GO! EVENT RENTALS      \n========================================\n\n";
-        text += `Client Name: ${currentUser}\nEmail Address: ${currentUserEmail}\nEvent Date: ${selectedEventDate}\nLogistics: ${selectedLogistics}\nVenue: ${selectedAddress || "Pick-up"}\nPayment Mode: ${selectedPaymentMode}\nProcessed On: ${new Date().toLocaleString()}\n\n----------------------------------------\n`;
+        text += `Client Name: ${currentUser}\nEmail Address: ${currentUserEmail}\nEvent Date: ${selectedEventDate}\nLogistics: ${selectedLogistics}\nVenue: ${selectedAddress || "Pick-up"}\nPayment Mode: ${selectedPaymentMode}\nProcessed On: ${getPSTTimeString(Date.now())} PST\n\n----------------------------------------\n`;
         
         let itemSubtotal = 0; 
         cart.forEach(i => { text += `${i.name} (x${i.qty}) \t\t ₱${(i.price * i.qty).toFixed(2)}\n`; itemSubtotal += (i.price * i.qty); });
@@ -1237,6 +1419,7 @@
     window.toggleSubmitButton = toggleSubmitButton; window.cancelReservation = cancelReservation;
     window.finalizeReservation = finalizeReservation; window.downloadReceipt = downloadReceipt; window.finishOrder = finishOrder;
     window.toggleChatWidget = toggleChatWidget; window.sendChatMessage = sendChatMessage; window.sendChatImage = sendChatImage; window.handleChatEnter = handleChatEnter;
+    window.toggleNotifDropdown = toggleNotifDropdown; window.clearNotifications = clearNotifications; window.handleNotificationClick = handleNotificationClick;
 
     showSection('landing-section');
 </script>
