@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chair We GO! - Premium Event Rentals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #b45309; 
+            --primary-hover: #92400e;
+            --secondary: #1e293b; 
+            --bg-color: #faf9f6; 
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #15803d; 
+            --danger: #be123c; 
+            --danger-hover: #9f1239;
+        }
+        
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .container { max-width: 1050px; margin: 0 auto; padding-bottom: 80px; }
+        
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--secondary); }
+        
+        .header { 
+            text-align: center; margin-bottom: 30px; padding: 30px 20px; 
+            background: var(--card-bg); border-radius: 16px; 
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05); 
+            border-top: 4px solid var(--primary);
+        }
+        .header h1 { color: var(--secondary); font-size: 3.2em; margin: 0 0 5px 0; font-weight: 700; cursor: pointer; letter-spacing: -0.5px;}
+        .header h1 span { color: var(--primary); font-style: italic; }
+        .header p { color: var(--text-light); font-size: 1.1em; margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85em; font-weight: 500;}
+        
+        .section { display: none; background: var(--card-bg); padding: 45px; border-radius: 16px; box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05); animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .landing-hero { 
+            text-align: center; padding: 70px 30px; 
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 16px; color: white;
+            box-shadow: 0 20px 40px -10px rgba(30, 41, 59, 0.4);
+            position: relative; overflow: hidden;
+        }
+        .landing-hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            animation: rotate 30s linear infinite;
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        .landing-hero h2 { font-size: 3em; color: #fef08a; margin-bottom: 15px; position: relative; z-index: 1; }
+        .landing-hero p { font-size: 1.15em; color: #cbd5e1; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; line-height: 1.6;}
+        .landing-buttons { display: flex; justify-content: center; gap: 20px; position: relative; z-index: 1;}
+        
+        #auth-section { background: transparent; box-shadow: none; padding: 0; }
+        .auth-card { background: var(--card-bg); max-width: 420px; margin: 0 auto; padding: 45px; border-radius: 16px; box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08); border: 1px solid var(--border); }
+        .auth-card h2 { text-align: center; margin-top: 0; color: var(--secondary); font-size: 2.2em; margin-bottom: 30px; }
+        .auth-msg { color: var(--danger); font-size: 0.9em; margin-top: 15px; text-align: center; }
+        .auth-msg.success { color: var(--success); }
+
+        input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select { 
+            padding: 15px; margin-bottom: 20px; width: 100%; border-radius: 8px; border: 1px solid var(--border); font-size: 15px; font-family: 'Poppins', sans-serif; transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--primary); background-color: #fff; box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.1); }
+        
+        button { 
+            background-color: var(--primary); color: white; border: none; cursor: pointer; font-weight: 500; 
+            padding: 15px 25px; border-radius: 30px; font-size: 15px; width: 100%; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); font-family: 'Poppins', sans-serif; letter-spacing: 0.5px;
+        }
+        button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 10px 20px -10px var(--primary); }
+        button:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        .btn-success { background-color: var(--primary); }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover:not(:disabled) { background-color: var(--danger-hover); box-shadow: 0 10px 20px -10px var(--danger);}
+        .btn-outline { background-color: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
+        .btn-outline:hover { background-color: var(--secondary); color: white; box-shadow: 0 10px 20px -10px var(--secondary);}
+        .btn-hero-outline { background-color: transparent; border: 2px solid #fef08a; color: #fef08a; }
+        .btn-hero-outline:hover { background-color: #fef08a; color: var(--secondary); }
+        .btn-small { padding: 8px 15px; font-size: 0.9em; border-radius: 20px; width: auto; }
+
+        .toggle-link { color: var(--primary); text-align: center; display: block; cursor: pointer; font-size: 0.95em; font-weight: 500; margin-top: 15px; transition: color 0.3s;}
+        .toggle-link:hover { color: var(--primary-hover); text-decoration: underline; }
+        
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .nav-bar h2 { margin: 0; font-size: 2em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        .admin-tabs { display: flex; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .admin-tab-btn { background: transparent; color: var(--text-light); border: none; padding: 12px 25px; font-size: 1.05em; cursor: pointer; border-radius: 30px; width: auto; font-weight: 500; }
+        .admin-tab-btn.active-tab { background: var(--secondary); color: white; box-shadow: 0 8px 15px -5px rgba(30, 41, 59, 0.3); }
+        .admin-view { display: none; }
+        .admin-view.active-view { display: block; animation: fadeIn 0.4s ease-in-out; }
+
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; color: var(--text-light); margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;}
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+        .cal-cell { min-height: 90px; border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; transition: all 0.2s; background: white; text-align: right; font-weight: 500;}
+        .cal-cell:hover { background: var(--bg-color); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 5px 15px -5px rgba(0,0,0,0.05); }
+        .cal-cell.empty { background: transparent; border: none; cursor: default; box-shadow: none; transform: none;}
+        .cal-cell.has-booking { background: #fffbeb; border-color: #fde68a; }
+        .booking-badge { background: var(--primary); color: white; font-size: 0.75em; padding: 4px 10px; border-radius: 12px; display: inline-block; float: left; margin-top: -2px; font-weight: 600;}
+
+        .card { border: 1px solid var(--border); padding: 0; border-radius: 16px; text-align: center; background: #fff; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); border-color: var(--primary); }
+        .card img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border); transition: transform 0.6s ease; }
+        .card:hover img { transform: scale(1.05); } 
+        .card-content { padding: 25px; background: white; position: relative; z-index: 2; }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.4em; }
+        .item-desc { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease; margin: 0; font-size: 0.9em; color: var(--text-light); }
+        .card:hover .item-desc { max-height: 150px; opacity: 1; margin-bottom: 20px; margin-top: 10px; }
+        .price-tag { font-size: 1.25em; font-weight: 600; color: var(--primary); margin-bottom: 20px; display: block; font-family: 'Playfair Display', serif;}
+        
+        .table-responsive { width: 100%; overflow-x: auto; }
+        table { width: 100%; min-width: 600px; border-collapse: separate; border-spacing: 0; margin-top: 15px; }
+        th, td { border-bottom: 1px solid var(--border); padding: 18px 15px; text-align: left; vertical-align: middle; }
+        th { background-color: #f8fafc; color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; }
+        th:first-child { border-top-left-radius: 8px; } th:last-child { border-top-right-radius: 8px; }
+        .btn-qty { background: var(--bg-color); border: 1px solid var(--border); color: var(--secondary); padding: 5px 12px; border-radius: 20px; width: auto; font-size: 1.2em; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal { background: #fff; padding: 40px; border-radius: 16px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal h3 { margin-top: 0; font-size: 1.8em; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .modal-buttons { display: flex; gap: 15px; margin-top: 25px; }
+        .detail-box { background: #f8fafc; border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: left; position: relative; transition: all 0.3s;}
+        .detail-box:hover { border-color: var(--primary); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.05); }
+
+        .date-picker-box { background: #f8fafc; padding: 30px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 30px; display: flex; align-items: flex-start; gap: 25px; flex-wrap: wrap;}
+        .date-picker-box label { font-weight: 500; color: var(--secondary); font-size: 0.95em; }
+        .policy-box { background: #f8fafc; border: 1px solid var(--border); padding: 25px; border-radius: 12px; height: 200px; overflow-y: auto; margin-bottom: 25px; font-size: 0.95em; line-height: 1.8; color: var(--text-main); }
+        .checkbox-container { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; font-weight: 500; font-size: 1.05em; cursor: pointer; color: var(--secondary); }
+        .checkbox-container input { width: 24px; height: 24px; cursor: pointer; accent-color: var(--primary); }
+
+        .status-badge { display: inline-block; padding: 6px 15px; border-radius: 20px; font-size: 0.75em; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .status-pending { background-color: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .status-paid { background-color: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
+
+        /* Notification Toast */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--secondary); color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideIn 0.3s forwards; font-size: 0.9em; display: flex; align-items: center; justify-content: space-between; gap: 15px;}
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        /* Chat Widget Styles */
+        #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 380px; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 1500; display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--border); }
+        #chat-header { background: var(--secondary); color: white; padding: 15px 20px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display', serif; font-size: 1.1em;}
+        #chat-body { display: flex; height: 360px; background: #f8fafc; }
+        #admin-chat-list { width: 35%; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: none; }
+        .chat-list-user { padding: 12px 10px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 0.85em; font-weight: 500; color: var(--text-main); transition: background 0.2s;}
+        .chat-list-user:hover, .chat-list-user.active { background: #eff6ff; color: var(--primary); }
+        .chat-list-user.unread { font-weight: 700; color: var(--danger); }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg-bubble { max-width: 80%; padding: 10px 15px; border-radius: 12px; font-size: 0.9em; line-height: 1.4; }
+        .msg-client { background: white; border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 2px;}
+        .msg-admin { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px;}
+        #chat-input-area { padding: 12px 15px; background: white; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; }
+        #chat-input-area input[type="text"] { margin: 0; padding: 10px 15px; border-radius: 20px; border: 1px solid var(--border); width: 100%; font-size: 0.9em;}
+        #chat-input-area button { width: auto; padding: 10px 18px; border-radius: 20px; font-size: 0.9em;}
+
+        #chat-toggle-btn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 1.5em; cursor: pointer; box-shadow: 0 10px 20px rgba(180, 83, 9, 0.3); z-index: 1400; border: none; transition: transform 0.2s;}
+        #chat-toggle-btn:hover { transform: scale(1.1); }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header h1 { font-size: 2.2em; }
+            .landing-hero { padding: 40px 20px; }
+            .landing-hero h2 { font-size: 2em; }
+            .landing-buttons { flex-direction: column; width: 100%; }
+            .landing-buttons button { width: 100%; }
+            
+            .section { padding: 25px 15px; }
+            .nav-bar { flex-direction: column; gap: 15px; text-align: center; }
+            .nav-bar h2 { font-size: 1.5em; }
+            .nav-bar div { width: 100%; justify-content: center; flex-wrap: wrap; }
+            
+            .date-picker-box { flex-direction: column; gap: 15px; padding: 20px; }
+            .date-picker-box > div { width: 100% !important; min-width: 100%; }
+            
+            .admin-tabs { flex-wrap: wrap; justify-content: center; }
+            .admin-tab-btn { width: 100%; text-align: center; margin-bottom: 5px; }
+            
+            .cal-cell { min-height: 60px; padding: 5px; font-size: 0.85em; }
+            .modal { width: 95%; padding: 25px 15px; }
+            .modal-buttons { flex-direction: column; }
+            .modal-buttons button { width: 100% !important; }
+            
+            #chat-widget { width: 92%; right: 4%; bottom: 90px; height: 60vh; }
+            #chat-body { height: calc(100% - 120px); }
+        }
+
+        @media print {
+            body * { visibility: hidden; background: white; }
+            #receipt-section, #receipt-section * { visibility: visible; }
+            #receipt-section { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; padding: 0;}
+            .no-print, #chat-widget, #chat-toggle-btn { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="container">
+    <div class="header">
+        <h1 onclick="goHome()">Chair We <span>GO!</span></h1>
+        <p>Premium Seating & Tables for Discerning Events</p>
+    </div>
+
+    <!-- LANDING PAGE SECTION -->
+    <div id="landing-section" class="section active">
+        <div class="landing-hero">
+            <h2>Set the Stage for an Unforgettable Gathering</h2>
+            <p>From intimate backyard celebrations to grand formal banquets, we provide pristine, high-quality seating and dining tables delivered right to your venue.</p>
+            
+            <div class="landing-buttons">
+                <button class="btn-success" style="width: auto; padding: 15px 45px; font-size: 1.1em;" onclick="getStarted('signup')">Reserve Now</button>
+                <button class="btn-hero-outline" style="width: auto; padding: 15px 45px; font-size: 1.1em; border-radius: 30px; font-weight: 500; cursor: pointer; font-family: 'Poppins', sans-serif;" onclick="getStarted('login')">Client Log In</button>
+            </div>
+        </div>
+
+        <div class="grid" style="margin-top: 30px;">
+            <div class="detail-box" style="text-align: center; background: white; border: none; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--primary); margin-top: 0; font-size: 2em; margin-bottom: 5px;">✦</h3>
+                <h3 style="color: var(--secondary); margin: 10px 0; font-size: 1.3em;">Pristine Quality</h3>
+                <p style="color: var(--text-light); font-size: 0.95em;">Carefully inspected and sanitized inventory ensuring your event styling looks absolutely flawless.</p>
+            </div>
+            <div class="detail-box" style="text-align: center; background: white; border: none; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--primary); margin-top: 0; font-size: 2em; margin-bottom: 5px;">✧</h3>
+                <h3 style="color: var(--secondary); margin: 10px 0; font-size: 1.3em;">Flexible Logistics</h3>
+                <p style="color: var(--text-light); font-size: 0.95em;">Choose between complimentary store pick-up or professional direct-to-venue delivery.</p>
+            </div>
+            <div class="detail-box" style="text-align: center; background: white; border: none; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--primary); margin-top: 0; font-size: 2em; margin-bottom: 5px;">✦</h3>
+                <h3 style="color: var(--secondary); margin: 10px 0; font-size: 1.3em;">Seamless Booking</h3>
+                <p style="color: var(--text-light); font-size: 0.95em;">Secure your dates elegantly via our 24/7 cloud-synced concierge reservation portal.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTHENTICATION SECTION -->
+    <div id="auth-section" class="section">
+        <div class="auth-card" id="signup-view">
+            <h2>Create an Account</h2>
+            <input type="text" id="signup-name" placeholder="Full Name">
+            <input type="email" id="signup-email" placeholder="Email Address">
+            <input type="password" id="signup-pass" placeholder="Password">
+            <button class="btn-success" onclick="signup()">Register to Rent</button>
+            <a class="toggle-link" onclick="switchAuth('login')">Already a client? Log in</a>
+            <p id="signup-msg" class="auth-msg"></p>
+        </div>
+
+        <div class="auth-card" id="login-view" style="display: none;">
+            <h2>Welcome Back</h2>
+            <input type="text" id="login-identifier" placeholder="Email Address or Full Name">
+            <input type="password" id="login-pass" placeholder="Password">
+            <button onclick="login()">Access Portal</button>
+            <a class="toggle-link" onclick="switchAuth('signup')">New client? Register here</a>
+            <p id="login-msg" class="auth-msg"></p>
+        </div>
+    </div>
+
+    <!-- ADMIN SECTION -->
+    <div id="admin-section" class="section">
+        <div class="nav-bar">
+            <h2>Admin Dashboard</h2>
+            <button class="btn-danger btn-small" onclick="logout()">Secure Logout</button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active-tab" id="tab-inventory" onclick="switchAdminTab('inventory')">Inventory</button>
+            <button class="admin-tab-btn" id="tab-renters" onclick="switchAdminTab('renters')">Client Records</button>
+            <button class="admin-tab-btn" id="tab-calendar" onclick="switchAdminTab('calendar')">Event Calendar</button>
+        </div>
+
+        <div id="admin-inventory" class="admin-view active-view">
+            <div class="date-picker-box">
+                <div style="flex:1;">
+                    <label>Add Stock Capacity</label>
+                    <input type="text" id="add-name" placeholder="Exact Item Name" style="margin-bottom:0; margin-top:10px;">
+                </div>
+                <div style="width: 150px;">
+                    <label>Quantity</label>
+                    <input type="number" id="add-qty" placeholder="Qty" style="margin-bottom:0; margin-top:10px;">
+                </div>
+                <div style="width: 150px; align-self: flex-end;">
+                    <button class="btn-success" onclick="addStock()">Update Stock</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="inventory-table">
+                    <thead><tr><th>Rental Item</th><th>Description</th><th>Max Capacity</th><th>Daily Rate</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="admin-renters" class="admin-view">
+            <div class="table-responsive">
+                <table id="renters-table">
+                    <thead><tr><th>Client Name</th><th>Total Events</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="admin-calendar" class="admin-view">
+            <div class="cal-header">
+                <button class="btn-outline btn-small" onclick="changeMonth(-1)">&#8592; Prev</button>
+                <h3 id="cal-month-year" style="margin:0; font-size: 1.8em;"></h3>
+                <button class="btn-outline btn-small" onclick="changeMonth(1)">Next &#8594;</button>
+            </div>
+            <div class="cal-days">
+                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+        </div>
+    </div>
+
+    <!-- USER RENTAL CATALOG -->
+    <div id="user-section" class="section">
+        <div class="nav-bar">
+            <h2>Welcome, <span id="display-renter-name" style="color:var(--primary); font-family: 'Playfair Display', serif; font-style: italic;"></span></h2>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-success btn-small" onclick="viewCart()">Cart (<span id="cart-count">0</span>)</button>
+                <button class="btn-outline btn-small" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        <p style="color: var(--text-light); margin-bottom: 30px; font-size: 1.1em;">Curate your event by selecting from our premium inventory below.</p>
+        <div class="grid" id="product-grid"></div>
+    </div>
+
+    <!-- CART SECTION -->
+    <div id="cart-section" class="section">
+        <div class="nav-bar">
+            <h2>Your Selection</h2>
+            <button class="btn-outline btn-small" onclick="backToShop()">Return to Catalog</button>
+        </div>
+        
+        <div class="table-responsive">
+            <table id="cart-table">
+                <thead><tr><th>Item</th><th>Quantity</th><th>Rate</th><th>Total</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <div class="date-picker-box" style="margin-top: 40px;">
+            <div style="width: 100%; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 style="margin:0; text-align:right; font-family: 'Poppins', sans-serif; font-size: 1.3em;">Subtotal: <span style="color:var(--primary);">₱<span id="cart-subtotal">0.00</span></span></h3>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px;">
+                <label for="reservation-date" style="display:block; margin-bottom:8px;">Event Date (4 days lead time):</label>
+                <input type="date" id="reservation-date" style="margin-bottom:0;">
+            </div>
+            <div style="flex: 2; min-width: 250px;">
+                <label for="venue-address" style="display:block; margin-bottom:8px;">Event Address:</label>
+                <input type="text" id="venue-address" placeholder="Street, Barangay, City" style="margin-bottom:0;">
+            </div>
+            <div style="flex: 1; min-width: 220px;">
+                <label for="delivery-method" style="display:block; margin-bottom:8px;">Logistics Method:</label>
+                <select id="delivery-method" style="margin-bottom:0;">
+                    <option value="pickup">Store Pick-up (₱0)</option>
+                    <option value="delivery">Delivery (₱300)</option>
+                </select>
+            </div>
+            <div style="flex: 1; min-width: 220px;">
+                <label for="payment-mode" style="display:block; margin-bottom:8px;">Payment Mode:</label>
+                <select id="payment-mode" style="margin-bottom:0;">
+                    <option value="cash">Cash (On Pick-up/Delivery)</option>
+                    <option value="online">Online Payment (InstaPay QR)</option>
+                </select>
+            </div>
+            
+            <div style="width: 100%; text-align: right; margin-top: 15px;">
+                <button class="btn-success" style="width: auto; padding: 15px 40px; font-size: 1.1em;" onclick="checkAvailabilityAndProceed()">Verify Availability</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POLICY SECTION -->
+    <div id="policy-section" class="section">
+        <h2 style="margin-top:0;">Rental Agreement</h2>
+        <p>Please review our terms for your event on <b id="display-event-date" style="color:var(--primary);"></b>.</p>
+        <div class="policy-box">
+            <b>1. Downpayment Requirement:</b> A 50% downpayment must be paid within 3 DAYS of submitting this request. Failure to pay will result in automatic termination of the reservation to free up inventory for other clients.<br><br>
+            <b>2. Care of Equipment:</b> The client agrees to use all inventory responsibly and keep them protected from severe weather damage or improper usage.<br><br>
+            <b>3. Damages & Loss:</b> Any damaged, broken, or lost items will be billed to the client at full retail replacement cost.<br><br>
+            <b>4. Returns:</b> All items must be staged and ready for pickup/returned by the agreed-upon date. Late returns incur a 50% daily fee based on the original rental rate.<br><br>
+            <b>5. Cancellation:</b> Cancellations made less than 24 hours prior to the reservation date are strictly non-refundable.
+        </div>
+        <label class="checkbox-container">
+            <input type="checkbox" id="policy-checkbox" onchange="toggleSubmitButton()">
+            I accept the Chair We GO! Premium Rental Agreement
+        </label>
+        <div style="display: flex; gap: 20px;">
+            <button class="btn-outline" onclick="cancelReservation()">Return to Selection</button>
+            <button id="btn-submit-reservation" class="btn-success" onclick="finalizeReservation()" disabled>Confirm Reservation</button>
+        </div>
+    </div>
+
+    <!-- RECEIPT SECTION -->
+    <div id="receipt-section" class="section">
+        <h2 style="text-align: center; font-size: 3em; margin-bottom: 5px;">Chair We <span style="color:var(--primary); font-style: italic;">GO!</span></h2>
+        <p style="text-align: center; color: var(--text-light); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9em; margin-top: 0;">Reservation Confirmed</p>
+        
+        <div style="background-color: #fffbeb; border: 1px solid #fde68a; padding: 25px; border-radius: 12px; margin: 30px 0; text-align: center;">
+            <h4 style="margin: 0 0 10px 0; color: #b45309; font-family: 'Playfair Display', serif; font-size: 1.4em;">Action Required: Retainer Fee</h4>
+            <p style="margin: 0; color: #92400e; font-size: 1.05em;">To secure your date, please remit the 50% retainer of <strong>₱<span id="receipt-downpayment"></span></strong> within 3 days.</p>
+            
+            <div id="receipt-qr-area" style="display: none; margin-top: 20px;">
+                <p style="margin:0 0 15px 0; font-weight: bold; color: var(--secondary); font-size: 1.1em;">Selected Payment: Online (InstaPay)</p>
+                
+                <img src="images/image_2b1985.png" alt="InstaPay QR Code" style="max-width: 220px; border: 2px solid var(--border); border-radius: 8px; display: block; margin: 0 auto;">
+                
+                <div style="margin-top: 20px; padding: 20px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;">
+                    <p style="margin: 0 0 15px 0; color: #1e3a8a; font-weight: 500; font-size: 1.05em;">🧾 Once you have scanned and paid, please upload your proof of payment screenshot in the chat support below.</p>
+                    <button class="btn-success" style="width: auto; padding: 12px 30px;" onclick="toggleChatWidget()">💬 Open Chat & Send Proof</button>
+                </div>
+            </div>
+
+            <div id="receipt-cash-area" style="display: none; margin-top: 20px;">
+                <p style="margin:0; font-weight: bold; color: var(--secondary); font-size: 1.1em;">Selected Payment: Cash (On Pick-up/Delivery)</p>
+            </div>
+        </div>
+
+        <div style="border: 1px solid var(--border); border-radius: 12px; padding: 30px; margin: 25px 0; background: #f8fafc;">
+            <p style="margin: 8px 0;"><b>Client Name:</b> <span id="receipt-name"></span></p>
+            <p style="margin: 8px 0;"><b>Email Address:</b> <span id="receipt-email" style="font-weight: 500;"></span></p>
+            <p style="margin: 8px 0;"><b>Event Date:</b> <span id="receipt-event-date" style="color: var(--primary); font-weight:600;"></span></p>
+            <p style="margin: 8px 0;"><b>Logistics:</b> <span id="receipt-logistics"></span></p>
+            <p style="margin: 8px 0;"><b>Event Address:</b> <span id="receipt-address"></span></p>
+            <p style="margin: 8px 0; font-size: 0.85em; color: var(--text-light);"><b>Processed On:</b> <span id="receipt-date"></span></p>
+        </div>
+        
+        <div class="table-responsive" id="receipt-content"></div>
+        
+        <div class="no-print" style="margin-top: 40px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-outline btn-small" onclick="window.print()">Print Document</button>
+            <button class="btn-outline btn-small" onclick="downloadReceipt()">Download Invoice</button>
+            <button class="btn-success btn-small" onclick="finishOrder()">Finish</button>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="cover-modal" class="modal-overlay">
+        <div class="modal" style="text-align: center; max-width: 450px;">
+            <h3 style="border:none; padding:0; font-size: 2em; color: var(--primary);">Elevate the Look</h3>
+            <p id="cover-modal-text" style="color: var(--text-main); font-size: 1.1em; margin: 20px 0 30px 0;">Would you like to add elegant fitted covers to these items for an additional fee?</p>
+            <div class="modal-buttons">
+                <button class="btn-outline" onclick="resolveCover(false)">No, Thank You</button>
+                <button class="btn-success" onclick="resolveCover(true)">Yes, Add Covers</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-detail-modal" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title">Event Details</h3>
+            <div id="modal-body"></div>
+            <div class="modal-buttons" style="justify-content: flex-end;">
+                <button class="btn-outline" style="width:auto;" onclick="closeAdminModal()">Close Window</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CHAT WIDGET -->
+<button id="chat-toggle-btn" onclick="toggleChatWidget()">💬</button>
+<div id="chat-widget">
+    <div id="chat-header" onclick="toggleChatWidget()">
+        <span id="chat-title">Chat Support</span>
+        <span style="font-size: 0.8em;">▼</span>
+    </div>
+    <div id="chat-body">
+        <div id="admin-chat-list"></div>
+        <div id="chat-messages"></div>
+    </div>
+    <div id="chat-input-area">
+        <!-- Image Upload Button -->
+        <input type="file" id="chat-file-input" accept="image/*" style="display:none;" onchange="sendChatImage(event)">
+        <button type="button" onclick="document.getElementById('chat-file-input').click()" style="background:transparent; color:var(--secondary); border:1px solid var(--border); border-radius:50%; width:38px; height:38px; padding:0; display:flex; align-items:center; justify-content:center; font-size:1.1em; cursor:pointer; flex-shrink:0;" title="Attach Image or Proof of Payment">📷</button>
+        
+        <input type="text" id="chat-input" placeholder="Type a message..." onkeypress="handleChatEnter(event)">
+        <button onclick="sendChatMessage()">Send</button>
+    </div>
+</div>
+
+<!-- FIREBASE CLOUD DATABASE INTEGRATION -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOPBby4IBRYlNfXXi6QNZCT8HXJrdC3X8",
+      authDomain: "chair-we-go.firebaseapp.com",
+      databaseURL: "https://chair-we-go-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "chair-we-go",
+      storageBucket: "chair-we-go.firebasestorage.app",
+      messagingSenderId: "439637769749",
+      appId: "1:439637769749:web:0a71b7c7aedbb9222ad81c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    async function hashPassword(password) {
+        const msgUint8 = new TextEncoder().encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const defaultUsers = [ { name: "admin", email: "admin@chairwego.com", pass: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", role: "admin" } ];
+    const defaultInventory = [
+        { id: 1, name: "Premium Monoblock", desc: "Classic white stackable seating. Impeccably clean, lightweight, and sturdy.", stock: 150, price: 15.00, coverFee: 5, img: "images/monoblock.jpg" },
+        { id: 2, name: "Round Banquet Table", desc: "60-inch diameter elegant table. Comfortably seats 6-8 guests.", stock: 30, price: 120.00, coverFee: 25, img: "images/round-table.jpg" },
+        { id: 3, name: "Rectangular Buffet Table", desc: "72x30 inches. Perfect for 8-10 guests or long buffet stylings.", stock: 35, price: 150.00, coverFee: 40, img: "images/rect-table.jpg" }
+    ];
+
+    let usersDb = defaultUsers;
+    let inventory = defaultInventory;
+    let allReservations = [];
+    let bookingsDb = {};
+    let globalChats = {};
+
+    let cart = [];
+    let loginAttempts = 0;
+    let currentUser = null;
+    let currentUserEmail = null;
+    let selectedEventDate = null;
+    let selectedAddress = null;
+    let selectedDeliveryFee = 0;
+    let selectedLogistics = "";
+    let selectedPaymentMode = "";
+    let pendingCartAction = null;
+    let calDate = new Date();
+    
+    let activeChatUser = null;
+    let previousChatCount = 0;
+    let isChatOpen = false;
+
+    function showToast(message) {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.innerHTML = `<span>${message}</span> <button style="background:transparent; border:none; color:white; width:auto; padding:0; font-size:1.2em; cursor:pointer;" onclick="this.parentElement.remove()">×</button>`;
+        container.appendChild(toast);
+        setTimeout(() => { if(toast.parentElement) toast.remove(); }, 5000);
+    }
+
+    onValue(ref(db, '/'), (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            usersDb = data.users ? (Array.isArray(data.users) ? data.users : Object.values(data.users)) : defaultUsers;
+            inventory = data.inventory ? (Array.isArray(data.inventory) ? data.inventory : Object.values(data.inventory)) : defaultInventory;
+            
+            const newRes = data.reservations ? (Array.isArray(data.reservations) ? data.reservations : Object.values(data.reservations)) : [];
+            if (currentUser === "admin" && newRes.length > allReservations.length && allReservations.length > 0) {
+                showToast("🛎️ New reservation received!");
+            }
+            allReservations = newRes;
+            bookingsDb = data.bookings || {};
+            
+            globalChats = data.chats || {};
+            processChatUpdates();
+
+        } else {
+            saveData();
+        }
+
+        if (currentUser === "admin") {
+            if(document.getElementById('admin-inventory').classList.contains('active-view')) renderAdminInventory();
+            if(document.getElementById('admin-renters').classList.contains('active-view')) renderRentersList();
+            if(document.getElementById('admin-calendar').classList.contains('active-view')) renderCalendar();
+        }
+    });
+
+    function saveData() {
+        set(ref(db, '/'), {
+            users: usersDb,
+            inventory: inventory,
+            reservations: allReservations,
+            bookings: bookingsDb,
+            chats: globalChats
+        });
+    }
+
+    // -- Chat Logic --
+    function toggleChatWidget() {
+        const widget = document.getElementById("chat-widget");
+        isChatOpen = !isChatOpen;
+        widget.style.display = isChatOpen ? "flex" : "none";
+        if(isChatOpen) renderChatUI();
+    }
+
+    function processChatUpdates() {
+        if(!currentUser) return;
+        
+        let currentTotalMessages = 0;
+        let incomingUnread = false;
+
+        if (currentUser === "admin") {
+            Object.keys(globalChats).forEach(user => {
+                const userMsgs = Object.values(globalChats[user]);
+                currentTotalMessages += userMsgs.length;
+                if(userMsgs.length > 0 && userMsgs[userMsgs.length-1].sender !== "admin") {
+                    incomingUnread = true;
+                }
+            });
+        } else {
+            if(globalChats[currentUser]) {
+                const myMsgs = Object.values(globalChats[currentUser]);
+                currentTotalMessages = myMsgs.length;
+                if(myMsgs.length > 0 && myMsgs[myMsgs.length-1].sender === "admin") {
+                    incomingUnread = true;
+                }
+            }
+        }
+
+        if (currentTotalMessages > previousChatCount) {
+            if (!isChatOpen && incomingUnread) {
+                showToast("💬 New chat message received!");
+            }
+            previousChatCount = currentTotalMessages;
+            if(isChatOpen) renderChatUI();
+        }
+    }
+
+    function renderChatUI() {
+        if(currentUser === "admin") {
+            document.getElementById("admin-chat-list").style.display = "block";
+            const listDiv = document.getElementById("admin-chat-list");
+            listDiv.innerHTML = "";
+            const activeUsers = Object.keys(globalChats);
+            
+            if(activeUsers.length === 0) listDiv.innerHTML = "<div style='padding:10px; font-size:0.8em; color:var(--text-light);'>No active chats.</div>";
+            
+            activeUsers.forEach(user => {
+                const userMsgs = Object.values(globalChats[user]);
+                const lastMsg = userMsgs[userMsgs.length-1];
+                const isUnread = (lastMsg.sender !== "admin");
+                
+                const div = document.createElement("div");
+                div.className = `chat-list-user ${activeChatUser === user ? 'active' : ''} ${isUnread ? 'unread' : ''}`;
+                div.innerText = user;
+                div.onclick = () => { activeChatUser = user; renderChatUI(); };
+                listDiv.appendChild(div);
+            });
+
+            if(!activeChatUser && activeUsers.length > 0) activeChatUser = activeUsers[0];
+            document.getElementById("chat-title").innerText = activeChatUser ? `Chat: ${activeChatUser}` : "Select a client";
+            
+        } else {
+            document.getElementById("admin-chat-list").style.display = "none";
+            document.getElementById("chat-title").innerText = "Support Chat";
+            activeChatUser = currentUser;
+        }
+
+        renderMessages();
+    }
+
+    function renderMessages() {
+        const msgDiv = document.getElementById("chat-messages");
+        msgDiv.innerHTML = "";
+        if(!activeChatUser || !globalChats[activeChatUser]) return;
+        
+        Object.values(globalChats[activeChatUser]).forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "msg-bubble " + (msg.sender === currentUser ? "msg-admin" : "msg-client");
+            
+            let html = "";
+            if (msg.text) {
+                const textDiv = document.createElement("div");
+                textDiv.innerText = msg.text;
+                html += textDiv.outerHTML;
+            }
+            if (msg.image) {
+                html += `<a href="${msg.image}" target="_blank" title="Click to view full image"><img src="${msg.image}" style="max-width:100%; border-radius:8px; margin-top:5px; display:block; cursor:pointer;" alt="Proof Attachment"></a>`;
+            }
+            div.innerHTML = html;
+            msgDiv.appendChild(div);
+        });
+        msgDiv.scrollTop = msgDiv.scrollHeight;
+    }
+
+    async function sendChatMessage() {
+        const input = document.getElementById("chat-input");
+        const text = input.value.trim();
+        if(!text || !activeChatUser) return;
+
+        const chatRef = ref(db, `chats/${activeChatUser}`);
+        await push(chatRef, { sender: currentUser, text: text, timestamp: Date.now() });
+        input.value = "";
+    }
+
+    async function sendChatImage(event) {
+        const file = event.target.files[0];
+        if (!file || !activeChatUser) return;
+
+        if (!file.type.startsWith('image/')) {
+            alert("Please select a valid image file.");
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            alert("Image file is too large. Please upload an image under 2MB.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Image = e.target.result;
+            const chatRef = ref(db, `chats/${activeChatUser}`);
+            await push(chatRef, { 
+                sender: currentUser, 
+                text: "📷 Sent proof/attachment:", 
+                image: base64Image, 
+                timestamp: Date.now() 
+            });
+            event.target.value = "";
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function handleChatEnter(e) { if(e.key === "Enter") sendChatMessage(); }
+
+    // -- App Logic --
+    let minDate = new Date();
+    minDate.setDate(minDate.getDate() + 4);
+    document.getElementById('reservation-date').min = minDate.toISOString().split("T")[0];
+
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function goHome() {
+        if(currentUser) return; 
+        showSection('landing-section');
+    }
+
+    function getStarted(type) {
+        showSection('auth-section');
+        switchAuth(type);
+    }
+
+    function switchAuth(type) {
+        document.getElementById("login-msg").innerText = ""; document.getElementById("signup-msg").innerText = "";
+        document.getElementById("signup-name").value = ""; document.getElementById("signup-email").value = ""; 
+        document.getElementById("signup-pass").value = "";
+        document.getElementById("login-identifier").value = ""; document.getElementById("login-pass").value = "";
+        document.getElementById("login-view").style.display = type === 'login' ? "block" : "none";
+        document.getElementById("signup-view").style.display = type === 'signup' ? "block" : "none";
+    }
+
+    async function signup() {
+        const name = document.getElementById("signup-name").value.trim();
+        const email = document.getElementById("signup-email").value.trim();
+        const pass = document.getElementById("signup-pass").value;
+        const msg = document.getElementById("signup-msg");
+        
+        msg.classList.remove("success");
+        if(!name || !email || !pass) return msg.innerText = "Please provide Name, Email, and Password.";
+        
+        if(!email.includes("@")) return msg.innerText = "Please provide a valid email address.";
+
+        if(usersDb.find(u => u.name.toLowerCase() === name.toLowerCase() || (u.email && u.email.toLowerCase() === email.toLowerCase()))) {
+            return msg.innerText = "Name or Email is already registered.";
+        }
+        
+        const securedPassword = await hashPassword(pass);
+        
+        usersDb.push({ name: name, email: email, pass: securedPassword, role: "user" });
+        saveData();
+        
+        msg.classList.add("success"); msg.innerText = "Account created! Redirecting...";
+        setTimeout(() => switchAuth('login'), 1500);
+    }
+
+    async function login() {
+        const msg = document.getElementById("login-msg"); msg.classList.remove("success");
+        const lockedUntil = localStorage.getItem("lockoutTime");
+        if (lockedUntil && Date.now() < lockedUntil) return msg.innerText = `Suspended. Try again in ${Math.ceil((lockedUntil - Date.now()) / 1000)}s.`;
+        
+        const identifier = document.getElementById("login-identifier").value.trim();
+        const passInput = document.getElementById("login-pass").value;
+        const hashedInput = await hashPassword(passInput);
+        
+        // Allows login using either Name OR Email
+        const userFound = usersDb.find(u => 
+            (u.name.toLowerCase() === identifier.toLowerCase() || 
+            (u.email && u.email.toLowerCase() === identifier.toLowerCase())) 
+            && u.pass === hashedInput
+        );
+
+        if (userFound) {
+            loginAttempts = 0; 
+            currentUser = userFound.name;
+            currentUserEmail = userFound.email || "N/A";
+            document.getElementById("chat-toggle-btn").style.display = "flex";
+            
+            if (userFound.role === "admin") {
+                switchAdminTab('inventory');
+                showSection("admin-section");
+            } else {
+                document.getElementById("display-renter-name").innerText = userFound.name;
+                renderUser(); showSection("user-section");
+            }
+        } else {
+            if (++loginAttempts >= 3) { localStorage.setItem("lockoutTime", Date.now() + 60000); msg.innerText = "Too many failed attempts. Suspended for 1 minute."; } 
+            else msg.innerText = `Invalid credentials. Attempts left: ${3 - loginAttempts}`;
+        }
+    }
+
+    function logout() { 
+        currentUser = null; currentUserEmail = null; cart = []; updateCartCount(); 
+        document.getElementById("chat-toggle-btn").style.display = "none";
+        document.getElementById("chat-widget").style.display = "none";
+        isChatOpen = false;
+        showSection("landing-section"); 
+    }
+
+    function switchAdminTab(tabName) {
+        document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+        document.getElementById('tab-' + tabName).classList.add('active-tab');
+        document.querySelectorAll('.admin-view').forEach(view => view.classList.remove('active-view'));
+        document.getElementById('admin-' + tabName).classList.add('active-view');
+
+        if(tabName === 'inventory') renderAdminInventory();
+        if(tabName === 'renters') renderRentersList();
+        if(tabName === 'calendar') renderCalendar();
+    }
+
+    function renderAdminInventory() {
+        const tbody = document.querySelector("#inventory-table tbody"); tbody.innerHTML = "";
+        inventory.forEach(item => {
+            tbody.innerHTML += `<tr><td><strong>${item.name}</strong></td><td><span style="font-size:0.9em; color:var(--text-light);">${item.desc}</span></td><td><strong>${item.stock}</strong></td><td>₱${item.price.toFixed(2)}</td></tr>`;
+        });
+    }
+
+    function addStock() {
+        const name = document.getElementById("add-name").value.trim(), qty = parseInt(document.getElementById("add-qty").value);
+        if (!name || isNaN(qty) || qty <= 0) return alert("Enter valid product name and positive quantity.");
+        const item = inventory.find(i => i.name.toLowerCase() === name.toLowerCase());
+        if (item) { 
+            item.stock += qty; 
+            saveData(); 
+            showToast(`✅ ${item.name} stock updated to ${item.stock}.`);
+        } 
+        else alert("Rental Item not found. Please type the exact name.");
+        document.getElementById("add-name").value = ""; document.getElementById("add-qty").value = "";
+        renderAdminInventory();
+    }
+
+    function renderRentersList() {
+        const tbody = document.querySelector("#renters-table tbody"); tbody.innerHTML = "";
+        let renterMap = {};
+        allReservations.forEach(res => {
+            if(!renterMap[res.renter]) renterMap[res.renter] = [];
+            renterMap[res.renter].push(res);
+        });
+
+        if(Object.keys(renterMap).length === 0) return tbody.innerHTML = "<tr><td colspan='3'>No reservations found.</td></tr>";
+
+        for (const [renterName, resArray] of Object.entries(renterMap)) {
+            tbody.innerHTML += `<tr>
+                <td><strong>${renterName}</strong></td>
+                <td>${resArray.length} Reservation(s)</td>
+                <td><button class="btn-outline btn-small" onclick="showRenterDetails('${renterName}')">View Records</button></td>
+            </tr>`;
+        }
+    }
+
+    function showRenterDetails(renterName) {
+        const userRes = allReservations.filter(r => r.renter === renterName);
+        let html = "";
+        userRes.forEach(res => {
+            let statusClass = res.status === "Paid" ? "status-paid" : "status-pending";
+            html += `<div class="detail-box">
+                <span class="status-badge ${statusClass}">${res.status}</span>
+                <p style="margin:5px 0;"><strong>Event Date:</strong> ${res.date}</p>
+                <p style="margin:5px 0;"><strong>Logistics:</strong> ${res.logistics}</p>
+                <p style="margin:5px 0;"><strong>Venue:</strong> ${res.address || "N/A (Pick-up)"}</p>
+                <p style="margin:5px 0;"><strong>Payment Mode:</strong> ${res.paymentMode}</p>
+                <p style="margin:5px 0;"><strong>Total Bill:</strong> ₱${res.total.toFixed(2)}</p>
+                <ul style="margin:8px 0 0 0; padding-left:20px; font-size:0.95em; color:var(--text-light);">`;
+            res.items.forEach(i => html += `<li>${i.qty}x ${i.name}</li>`);
+            html += `</ul></div>`;
+        });
+        document.getElementById("modal-title").innerText = `Client Records: ${renterName}`;
+        document.getElementById("modal-body").innerHTML = html;
+        document.getElementById("admin-detail-modal").style.display = "flex";
+    }
+
+    function changeAdminResStatus(id, dateStr, newStatus) {
+        let res = allReservations.find(r => r.id === id);
+        if(res) {
+            res.status = newStatus;
+            saveData();
+            showDateDetails(dateStr); 
+            showToast("Payment status updated.");
+        }
+    }
+
+    function deleteAdminReservation(id, dateStr) {
+        if(!confirm("Are you sure you want to terminate this reservation? This will free the inventory globally.")) return;
+        
+        let res = allReservations.find(r => r.id === id);
+        if(res && bookingsDb[dateStr]) {
+            res.items.forEach(i => {
+                if(bookingsDb[dateStr][i.originalId]) {
+                    bookingsDb[dateStr][i.originalId] -= i.qty;
+                    if(bookingsDb[dateStr][i.originalId] < 0) bookingsDb[dateStr][i.originalId] = 0;
+                }
+            });
+        }
+        
+        allReservations = allReservations.filter(r => r.id !== id);
+        saveData(); 
+        showToast("Reservation terminated. Inventory freed.");
+        
+        showDateDetails(dateStr); 
+        renderCalendar(); 
+        renderRentersList();
+    }
+
+    function renderCalendar() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        document.getElementById("cal-month-year").innerText = `${monthNames[calDate.getMonth()]} ${calDate.getFullYear()}`;
+        
+        const grid = document.getElementById("cal-grid"); grid.innerHTML = "";
+        let firstDayIndex = new Date(calDate.getFullYear(), calDate.getMonth(), 1).getDay();
+        let daysInMonth = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 0).getDate();
+
+        for(let i = 0; i < firstDayIndex; i++) grid.innerHTML += `<div class="cal-cell empty"></div>`;
+
+        for(let d = 1; d <= daysInMonth; d++) {
+            let m = (calDate.getMonth() + 1).toString().padStart(2, '0');
+            let dayStr = d.toString().padStart(2, '0');
+            let fullDateStr = `${calDate.getFullYear()}-${m}-${dayStr}`;
+
+            let dailyRes = allReservations.filter(r => r.date === fullDateStr);
+            let hasBookingClass = dailyRes.length > 0 ? "has-booking" : "";
+            let badgeHtml = dailyRes.length > 0 ? `<span class="booking-badge">${dailyRes.length}</span>` : "";
+
+            grid.innerHTML += `<div class="cal-cell ${hasBookingClass}" onclick="showDateDetails('${fullDateStr}')">
+                ${badgeHtml} ${d}
+            </div>`;
+        }
+    }
+
+    function changeMonth(dir) { calDate.setMonth(calDate.getMonth() + dir); renderCalendar(); }
+
+    function showDateDetails(dateStr) {
+        const dayRes = allReservations.filter(r => r.date === dateStr);
+        if(dayRes.length === 0) {
+            document.getElementById("admin-detail-modal").style.display = "none";
+            return alert("No events booked for this date.");
+        }
+        
+        let html = "";
+        dayRes.forEach(res => {
+            let statusClass = res.status === "Paid" ? "status-paid" : "status-pending";
+            html += `<div class="detail-box" style="position:relative; padding-top: 45px;">
+                <div style="position:absolute; right:15px; top:15px; display:flex; gap:10px;">
+                    ${res.status !== "Paid" ? `<button onclick="changeAdminResStatus(${res.id}, '${dateStr}', 'Paid')" style="background:var(--success); color:white; border:none; padding:5px 12px; border-radius:15px; cursor:pointer; font-size:0.8em; font-weight: 500;">Mark Paid</button>` : ''}
+                    <button onclick="deleteAdminReservation(${res.id}, '${dateStr}')" style="background:var(--danger); color:white; border:none; padding:5px 12px; border-radius:15px; cursor:pointer; font-size:0.8em; font-weight: 500;">Terminate</button>
+                </div>
+                
+                <span class="status-badge ${statusClass}" style="position:absolute; left:15px; top:15px; margin:0;">${res.status}</span>
+                <p style="margin:10px 0 5px 0; color:var(--primary); font-size: 1.1em; font-weight: 500;"><strong>Client:</strong> ${res.renter}</p>
+                <p style="margin:0 0 5px 0; font-size:0.95em;"><strong>Logistics:</strong> ${res.logistics} | <strong>Payment Mode:</strong> ${res.paymentMode}</p>
+                <p style="margin:0 0 5px 0; font-size:0.95em;"><strong>Venue:</strong> ${res.address || "N/A (Pick-up)"}</p>
+                <p style="margin:0 0 10px 0; font-size:0.95em;"><strong>Bill Total:</strong> ₱${res.total.toFixed(2)}</p>
+                
+                <ul style="margin:0; padding-left:20px; font-size:0.95em; color:var(--text-light);">`;
+            res.items.forEach(i => html += `<li>${i.qty}x ${i.name}</li>`);
+            html += `</ul></div>`;
+        });
+        document.getElementById("modal-title").innerText = `Schedule for ${dateStr}`;
+        document.getElementById("modal-body").innerHTML = html;
+        document.getElementById("admin-detail-modal").style.display = "flex";
+    }
+
+    function closeAdminModal() { document.getElementById("admin-detail-modal").style.display = "none"; }
+
+    function renderUser() {
+        const grid = document.getElementById("product-grid"); grid.innerHTML = "";
+        inventory.forEach(item => {
+            grid.innerHTML += `<div class="card">
+                <img src="${item.img}" alt="${item.name}">
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <p class="item-desc">
+                        ${item.desc}
+                        <strong style="color:var(--text-main); display:block; margin-top:10px; font-weight: 500;">Capacity: ${item.stock} units</strong>
+                    </p>
+                    <span class="price-tag">₱${item.price.toFixed(2)} <span style="font-size:0.7em; font-family:'Poppins', sans-serif; font-weight:400; color:var(--text-light)">/ day</span></span>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <input type="number" id="qty-${item.id}" min="1" max="${item.stock}" value="1" style="width: 70px; margin:0; padding:10px; text-align:center;">
+                        <button onclick="triggerCoverModal(${item.id})" style="flex:1; margin:0;">Reserve Selection</button>
+                    </div>
+                </div>
+            </div>`;
+        });
+    }
+
+    function triggerCoverModal(id) {
+        const item = inventory.find(i => i.id === id); 
+        const qtyInput = document.getElementById(`qty-${id}`); 
+        const qty = parseInt(qtyInput.value);
+        
+        if (qty <= 0 || isNaN(qty)) return alert("Please enter a valid quantity.");
+        if (qty > item.stock) return alert(`Our current global capacity is ${item.stock} for this item.`);
+
+        pendingCartAction = { item: item, qty: qty, inputRef: qtyInput };
+        document.getElementById("cover-modal-text").innerText = `Enhance your seating with elegant fitted covers for ${item.name} at just ₱${item.coverFee} extra per item?`;
+        document.getElementById("cover-modal").style.display = "flex";
+    }
+
+    function resolveCover(wantsCover) {
+        document.getElementById("cover-modal").style.display = "none"; 
+        if(!pendingCartAction) return;
+
+        const { item, qty, inputRef } = pendingCartAction;
+        const finalPrice = wantsCover ? item.price + item.coverFee : item.price;
+        const finalName = wantsCover ? `${item.name} (with Cover)` : item.name;
+        const cartId = item.id + (wantsCover ? '-cover' : '-nocover');
+
+        const existing = cart.find(c => c.cartId === cartId);
+        if (existing) existing.qty += qty; 
+        else cart.push({ cartId: cartId, originalId: item.id, name: finalName, price: finalPrice, qty: qty });
+
+        inputRef.value = 1; 
+        pendingCartAction = null; 
+        updateCartCount(); 
+        showToast(`🛒 Added ${qty}x ${finalName} to your cart.`);
+    }
+
+    function updateCartCount() { document.getElementById("cart-count").innerText = cart.reduce((sum, item) => sum + item.qty, 0); }
+
+    function viewCart() {
+        const tbody = document.querySelector("#cart-table tbody"); tbody.innerHTML = ""; let subtotal = 0;
+        cart.forEach(item => {
+            let lineTotal = item.qty * item.price; subtotal += lineTotal;
+            tbody.innerHTML += `<tr>
+                <td><strong style="color:var(--secondary);">${item.name}</strong></td>
+                <td>
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <button class="btn-qty" onclick="changeCartQty('${item.cartId}', -1)">-</button>
+                        <input type="number" min="1" value="${item.qty}" style="width: 60px; margin:0; padding:8px 5px; border: 1px solid var(--border); border-radius: 8px; text-align: center; font-weight:600;" onchange="updateCartItemQty('${item.cartId}', this.value)">
+                        <button class="btn-qty" onclick="changeCartQty('${item.cartId}', 1)">+</button>
+                        <button class="btn-outline btn-small" onclick="removeCartItem('${item.cartId}')" style="margin-left: 15px; border-color:var(--danger); color:var(--danger);">Remove</button>
+                    </div>
+                </td>
+                <td style="color:var(--text-light);">₱${item.price.toFixed(2)}</td>
+                <td style="color:var(--secondary);"><strong>₱${lineTotal.toFixed(2)}</strong></td>
+            </tr>`;
+        });
+        document.getElementById("cart-subtotal").innerText = subtotal.toFixed(2); showSection("cart-section");
+    }
+
+    function changeCartQty(cartId, amount) {
+        const cartItem = cart.find(c => c.cartId === cartId); if (!cartItem) return;
+        const inventoryItem = inventory.find(i => i.id === cartItem.originalId);
+        
+        if (amount > 0) {
+            const totalInCart = cart.filter(c => c.originalId === inventoryItem.id).reduce((sum, c) => sum + c.qty, 0);
+            if (totalInCart + amount > inventoryItem.stock) return alert(`Cannot exceed total inventory of ${inventoryItem.stock}.`);
+            cartItem.qty += amount;
+        } else { 
+            cartItem.qty += amount; 
+            if (cartItem.qty <= 0) cart = cart.filter(c => c.cartId !== cartId); 
+        }
+        updateCartCount(); viewCart();
+    }
+
+    function updateCartItemQty(cartId, newQtyVal) {
+        let newQty = parseInt(newQtyVal);
+        if (isNaN(newQty) || newQty <= 0) return alert("Please enter a valid quantity.");
+        
+        const cartItem = cart.find(c => c.cartId === cartId);
+        if (!cartItem) return;
+        
+        const inventoryItem = inventory.find(i => i.id === cartItem.originalId);
+        const otherCartItemsQty = cart.filter(c => c.originalId === inventoryItem.id && c.cartId !== cartId).reduce((sum, c) => sum + c.qty, 0);
+        
+        if (otherCartItemsQty + newQty > inventoryItem.stock) {
+            alert(`Cannot exceed total inventory of ${inventoryItem.stock}. You can only add ${inventoryItem.stock - otherCartItemsQty} more of this item.`);
+            viewCart(); 
+            return;
+        }
+        cartItem.qty = newQty; updateCartCount(); viewCart();
+    }
+
+    function removeCartItem(cartId) { cart = cart.filter(c => c.cartId !== cartId); updateCartCount(); viewCart(); }
+    function backToShop() { showSection("user-section"); }
+
+    function checkAvailabilityAndProceed() {
+        if (cart.length === 0) return alert("Your cart is empty.");
+        
+        const dateInput = document.getElementById("reservation-date").value;
+        const addressInput = document.getElementById("venue-address").value.trim();
+        const deliveryMethod = document.getElementById("delivery-method").value;
+        const paymentMode = document.getElementById("payment-mode").value;
+        
+        if (!dateInput) return alert("Please select your event date.");
+        if (deliveryMethod === "delivery" && !addressInput) return alert("Please provide the full venue address for delivery.");
+        
+        const dateBookings = bookingsDb[dateInput] || {};
+        for (let cartItem of cart) {
+            const totalQtyInCart = cart.filter(c => c.originalId === cartItem.originalId).reduce((sum, c) => sum + c.qty, 0);
+            const bookedQty = dateBookings[cartItem.originalId] || 0;
+            const invItem = inventory.find(i => i.id === cartItem.originalId);
+            const availableStock = invItem.stock - bookedQty;
+            if (totalQtyInCart > availableStock) return alert(`For ${dateInput}, we only have ${availableStock}x ${invItem.name} remaining.`);
+        }
+        
+        selectedEventDate = dateInput; 
+        selectedAddress = deliveryMethod === "pickup" ? "" : addressInput;
+        selectedDeliveryFee = deliveryMethod === "pickup" ? 0 : 300;
+        selectedLogistics = deliveryMethod === "pickup" ? "Store Pick-up" : "Delivery";
+        selectedPaymentMode = paymentMode === "cash" ? "Cash" : "Online Payment (InstaPay)";
+        
+        document.getElementById("display-event-date").innerText = selectedEventDate;
+        document.getElementById("policy-checkbox").checked = false; 
+        document.getElementById("btn-submit-reservation").disabled = true;
+        showSection("policy-section");
+    }
+
+    function toggleSubmitButton() { document.getElementById("btn-submit-reservation").disabled = !document.getElementById("policy-checkbox").checked; }
+    function cancelReservation() { showSection("cart-section"); }
+
+    function finalizeReservation() {
+        if(!bookingsDb[selectedEventDate]) bookingsDb[selectedEventDate] = {};
+        cart.forEach(item => bookingsDb[selectedEventDate][item.originalId] = (bookingsDb[selectedEventDate][item.originalId] || 0) + item.qty );
+        
+        let itemSubtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        let grandTotal = itemSubtotal + selectedDeliveryFee;
+        let downpayment = grandTotal / 2;
+        
+        allReservations.push({
+            id: Date.now(), 
+            renter: currentUser, 
+            date: selectedEventDate,
+            logistics: selectedLogistics,
+            address: selectedAddress,
+            deliveryFee: selectedDeliveryFee,
+            paymentMode: selectedPaymentMode,
+            items: JSON.parse(JSON.stringify(cart)), 
+            total: grandTotal,
+            status: "Pending Downpayment"
+        });
+
+        saveData();
+
+        document.getElementById("receipt-name").innerText = currentUser;
+        document.getElementById("receipt-email").innerText = currentUserEmail;
+        document.getElementById("receipt-event-date").innerText = selectedEventDate;
+        document.getElementById("receipt-logistics").innerText = selectedLogistics;
+        document.getElementById("receipt-address").innerText = selectedAddress || "N/A (Client will Pick-up)";
+        document.getElementById("receipt-downpayment").innerText = downpayment.toFixed(2);
+        document.getElementById("receipt-date").innerText = new Date().toLocaleString();
+        
+        if (selectedPaymentMode === "Online Payment (InstaPay)") {
+            document.getElementById("receipt-qr-area").style.display = "block";
+            document.getElementById("receipt-cash-area").style.display = "none";
+        } else {
+            document.getElementById("receipt-qr-area").style.display = "none";
+            document.getElementById("receipt-cash-area").style.display = "block";
+        }
+        
+        let html = "<table style='width:100%; text-align:left; border-collapse: separate; border-spacing:0; margin-top:20px;'><tr style='border-bottom:2px solid var(--border);'><th style='background:transparent; color:var(--text-light);'>Item</th><th style='background:transparent; color:var(--text-light);'>Qty</th><th style='background:transparent; color:var(--text-light);'>Fee</th></tr>";
+        cart.forEach(i => html += `<tr><td style="color:var(--secondary); font-weight:500;">${i.name}</td><td style="color:var(--text-light);">${i.qty}</td><td style="color:var(--text-light);">₱${(i.price * i.qty).toFixed(2)}</td></tr>`);
+        
+        if(selectedDeliveryFee > 0) {
+            html += `<tr><td colspan='2' style='color:var(--text-light);'>Delivery Logistics</td><td style='color:var(--text-light);'>₱${selectedDeliveryFee.toFixed(2)}</td></tr>`;
+        }
+        
+        html += `<tr><td colspan='2' style='font-size:1.3em; font-family: "Playfair Display", serif; padding-top:25px;'><b>Total Investment</b></td><td style='font-size:1.3em; color:var(--primary); padding-top:25px;'><b>₱${grandTotal.toFixed(2)}</b></td></tr></table>`;
+        document.getElementById("receipt-content").innerHTML = html;
+        showSection("receipt-section");
+    }
+
+    function downloadReceipt() {
+        let text = "========================================\n        CHAIR WE GO! EVENT RENTALS      \n========================================\n\n";
+        text += `Client Name: ${currentUser}\nEmail Address: ${currentUserEmail}\nEvent Date: ${selectedEventDate}\nLogistics: ${selectedLogistics}\nVenue: ${selectedAddress || "Pick-up"}\nPayment Mode: ${selectedPaymentMode}\nProcessed On: ${new Date().toLocaleString()}\n\n----------------------------------------\n`;
+        
+        let itemSubtotal = 0; 
+        cart.forEach(i => { text += `${i.name} (x${i.qty}) \t\t ₱${(i.price * i.qty).toFixed(2)}\n`; itemSubtotal += (i.price * i.qty); });
+        
+        if(selectedDeliveryFee > 0) text += `Delivery Fee \t\t\t\t ₱${selectedDeliveryFee.toFixed(2)}\n`;
+        
+        let grandTotal = itemSubtotal + selectedDeliveryFee;
+        let downpayment = grandTotal / 2;
+        
+        text += `----------------------------------------\nTOTAL BILL: \t\t\t ₱${grandTotal.toFixed(2)}\n`;
+        text += `REQUIRED RETAINER (50%): \t ₱${downpayment.toFixed(2)}\n\n`;
+        text += "*** IMPORTANT NOTE ***\nPlease pay your retainer fee within 3 days.\nFailure to remit will result in event cancellation.\n\nThank you for choosing Chair We GO!";
+        
+        const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
+        a.download = `ChairWeGO_Invoice_${currentUser.replace(/\s+/g, '')}_${selectedEventDate}.txt`; a.click();
+    }
+
+    function finishOrder() { 
+        cart = []; selectedEventDate = null; selectedAddress = null; selectedDeliveryFee = 0;
+        document.getElementById("venue-address").value = ""; 
+        document.getElementById("delivery-method").value = "pickup";
+        document.getElementById("payment-mode").value = "cash";
+        updateCartCount(); renderUser(); showSection("user-section"); 
+    }
+
+    // Expose functions to window
+    window.showSection = showSection; window.goHome = goHome; window.getStarted = getStarted;
+    window.switchAuth = switchAuth; window.signup = signup; window.login = login; window.logout = logout;
+    window.switchAdminTab = switchAdminTab; window.addStock = addStock; window.showRenterDetails = showRenterDetails;
+    window.changeAdminResStatus = changeAdminResStatus; window.deleteAdminReservation = deleteAdminReservation;
+    window.changeMonth = changeMonth; window.showDateDetails = showDateDetails; window.closeAdminModal = closeAdminModal;
+    window.triggerCoverModal = triggerCoverModal; window.resolveCover = resolveCover; window.viewCart = viewCart;
+    window.changeCartQty = changeCartQty; window.updateCartItemQty = updateCartItemQty; window.removeCartItem = removeCartItem;
+    window.backToShop = backToShop; window.checkAvailabilityAndProceed = checkAvailabilityAndProceed;
+    window.toggleSubmitButton = toggleSubmitButton; window.cancelReservation = cancelReservation;
+    window.finalizeReservation = finalizeReservation; window.downloadReceipt = downloadReceipt; window.finishOrder = finishOrder;
+    window.toggleChatWidget = toggleChatWidget; window.sendChatMessage = sendChatMessage; window.sendChatImage = sendChatImage; window.handleChatEnter = handleChatEnter;
+
+    showSection('landing-section');
+</script>
+</body>
+</html>
